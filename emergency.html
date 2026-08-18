@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Health QR</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .card {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #c62828;
+    }
+
+    .info {
+      line-height: 1.8;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 25px 0;
+    }
+
+    .note {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>🚑 Emergency Health QR</h1>
+
+  <div id="patientInfo" class="info"></div>
+
+  <h2>📱 Emergency QR Code</h2>
+
+  <div id="qrcode"></div>
+
+  <p class="note">
+    Scan this QR code with another phone to view the emergency information.
+  </p>
+</div>
+
+<script>
+  const data = localStorage.getItem("patientData");
+
+  if (!data) {
+    document.getElementById("patientInfo").innerHTML =
+      "<p>No patient information found.</p>";
+  } else {
+    const patient = JSON.parse(data);
+
+    document.getElementById("patientInfo").innerHTML = `
+      <p><strong>Name:</strong> ${patient.name || "N/A"}</p>
+      <p><strong>Age:</strong> ${patient.age || "N/A"}</p>
+      <p><strong>Blood Group:</strong> ${patient.bloodGroup || "N/A"}</p>
+      <p><strong>Allergies:</strong> ${patient.allergies || "None"}</p>
+      <p><strong>Medical Conditions:</strong> ${patient.conditions || "None"}</p>
+      <p><strong>Medications:</strong> ${patient.medications || "None"}</p>
+      <p><strong>Emergency Contact:</strong> ${patient.emergencyName || "N/A"}</p>
+      <p><strong>Emergency Phone:</strong> ${patient.emergencyPhone || "N/A"}</p>
+    `;
+
+    const qrText = `
+Emergency Health Profile
+Name: ${patient.name || "N/A"}
+Age: ${patient.age || "N/A"}
+Blood Group: ${patient.bloodGroup || "N/A"}
+Allergies: ${patient.allergies || "None"}
+Conditions: ${patient.conditions || "None"}
+Emergency Contact: ${patient.emergencyName || "N/A"}
+Phone: ${patient.emergencyPhone || "N/A"}
+`;
+
+    new QRCode(document.getElementById("qrcode"), {
+      text: qrText,
+      width: 220,
+      height: 220
+    });
+  }
+</script>
+
+</body>
+</html>
