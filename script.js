@@ -1,26 +1,33 @@
-const form = document.querySelector("form");
+document.getElementById("healthForm").addEventListener("submit", function(event) {
 
-if (form) {
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        const inputs = form.querySelectorAll("input");
+    const name = document.getElementById("name").value;
+    const age = document.getElementById("age").value;
+    const blood = document.getElementById("blood").value;
+    const allergies = document.getElementById("allergies").value;
+    const conditions = document.getElementById("conditions").value;
+    const medicines = document.getElementById("medicines").value;
+    const contact = document.getElementById("contact").value;
+    const notes = document.getElementById("notes").value;
 
-        const patient = {
-            name: inputs[0].value,
-            age: inputs[1].value,
-            bloodGroup: inputs[2].value,
-            allergies: inputs[3].value,
-            conditions: inputs[4].value,
-            medications: inputs[5].value,
-            emergencyName: inputs[6].value,
-            emergencyPhone: inputs[7].value
-        };
+    const healthData =
+        "EMERGENCY HEALTH INFORMATION\n\n" +
+        "Name: " + name + "\n" +
+        "Age: " + age + "\n" +
+        "Blood Group: " + blood + "\n" +
+        "Allergies: " + allergies + "\n" +
+        "Medical Conditions: " + conditions + "\n" +
+        "Current Medications: " + medicines + "\n" +
+        "Emergency Contact: " + contact + "\n" +
+        "Precautions / Responder Notes: " + notes;
 
-        localStorage.setItem("patientData", JSON.stringify(patient));
+    document.getElementById("qrcode").innerHTML = "";
 
-        alert("Emergency profile created successfully!");
-
-        window.location.href = "emergency.html";
+    new QRCode(document.getElementById("qrcode"), {
+        text: healthData,
+        width: 250,
+        height: 250
     });
-}
+
+});
